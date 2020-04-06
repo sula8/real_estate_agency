@@ -34,12 +34,12 @@ class Complaint(models.Model):
                                verbose_name="Кто жаловался",
                                null=True,
                                on_delete=models.SET_NULL,
-                               related_name="complaint_author")
+                               related_name="complaints")
     complain_flat = models.ForeignKey(Flat,
                                       verbose_name="Квартира, на которую пожаловались",
                                       null=True,
                                       on_delete=models.CASCADE,
-                                      related_name="complaint_flat")
+                                      related_name="complaints")
     complain_text = models.TextField("Текст жалобы")
 
     def __str__(self):
@@ -49,8 +49,8 @@ class Complaint(models.Model):
 class Owner(models.Model):
     owner_name = models.CharField("ФИО владельца", max_length=200, db_index=True)
     owners_phonenumber = models.CharField("Номер владельца", max_length=20)
-    owner_phone_pure = PhoneNumberField(verbose_name="Нормализованный номер владельца", blank=True)
-    flats = models.ManyToManyField(Flat, verbose_name="Квартиры в собственности", related_name="flat_owner")
+    owner_phone_pure = PhoneNumberField(verbose_name="Нормализованный номер владельца",)
+    flats = models.ManyToManyField(Flat, verbose_name="Квартиры в собственности",  blank=True, related_name="flat_owner")
 
     def __str__(self):
         return f"{self.owner_name}, {self.owners_phonenumber}"
