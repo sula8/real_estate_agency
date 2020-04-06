@@ -8,10 +8,11 @@ def migrate_owner_data(apps, schema_editor):
     Owner = apps.get_model("property", "Owner")
 
     for flat in Flat.objects.all():
-        owner = Owner.objects.get_or_create(owner_name=flat.owner,
+        obj, owner = Owner.objects.get_or_create(owner_name=flat.owner,
                                             owners_phonenumber=flat.owners_phonenumber,
                                             owner_phone_pure=flat.owner_phone_pure)
-        owner[0].flats.add(flat)
+        obj.flats.add(flat)
+        obj.save()
 
 
 class Migration(migrations.Migration):
